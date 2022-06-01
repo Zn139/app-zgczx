@@ -1,0 +1,3 @@
+.mui-bar .mui-bar-nav{
+	background-image: url(../img/nav.png);
+}

@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <title>基础信息</title>
+	<script src="../../js/vue@2.4.2.js" type="text/javascript" charset="utf-8"></script>
+    <!-- 引入样式 -->
+    <!-- <link rel="stylesheet" href="https://unpkg.com/element-ui@1.4.3/lib/theme-default/index.css"> -->
+	<!-- <link rel="stylesheet" type="text/css" href="../../css/element-ui@1.4.3.css"/> -->
+	<link rel="stylesheet" type="text/css" href="../../css/ele.css"/>
+	<link href="../../css/mui.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../../css/app-register.css">
+    <!-- VUE -->
+    <!-- <script src="https://unpkg.com/vue@2.4.2/dist/vue.js"></script> -->
+	
+    <!-- 引入组件库 -->
+    <!-- <script src="https://unpkg.com/element-ui@1.4.3/lib/index.js"></script> -->
+    
+    <!-- 引入组件库 -->
+	<script src="../../js/element-ui@1.4.3.js" type="text/javascript" charset="utf-8"></script>
+    <!-- <script src="https://unpkg.com/element-ui/lib/index.js"></script> -->
+	<script src="../../js/function.js" type="text/javascript" charset="utf-8"></script>
+
+</head>
+<body>
+	<header class="mui-bar mui-bar-nav">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		<h1 class="mui-title">注册页面</h1>
+	</header>
+<div class="" id="app">
+    <el-form  :model="ruleForm" :rules="rules2" ref="ruleForm" label-width="80px" class="custom-ruleForm">
+        <div style='margin-top: 50px;'></div>
+		<div class="basic">
+            
+            <el-row :gutter="15">
+                <el-col :span="24">
+                    <el-form-item label="姓&emsp;&emsp;名" prop="show_name">
+                        <el-input v-model="ruleForm.show_name" placeholder="2-5个字符(中文/字母)"></el-input>
+                    </el-form-item>
+                    <el-form-item label="性&emsp;&emsp;别" prop="sex">
+                        <el-select v-model="ruleForm.sex" placeholder="性别">
+                            <el-option label="男" value="男"></el-option>
+                            <el-option label="女" value="女"></el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="出生日期" prop="birthday">
+                        <el-date-picker
+                            v-model="ruleForm.birthday"
+                            type="date"
+                            format="yyyy-MM-dd"
+                            placeholder="选择日期"
+                        >
+                        </el-date-picker>
+                    </el-form-item>
+                </el-col>
+                <!-- <el-col :span="8">
+                    <div class="container">
+                        <div class="z_photo">
+                            <div class="z_file">
+                                <div id="preview" style="width: 100%;height: 100%;">
+                                    <img id="imghead" border="0" src="" width="90" height="90" onclick="$('#previewImg').click();">
+                                 </div>
+                                <input type="file" onchange="previewImage(this)" style="display: none;" id="previewImg">
+                                <i class="el-icon-plus"></i>
+                            </div>
+                        </div>
+                    </div>
+                </el-col> -->
+                <el-col :span="24">
+                    <el-form-item label="账&emsp;&emsp;号" prop="name">
+                        <el-input v-model="ruleForm.name" placeholder="用户的唯一标识(仅限字母/数字/_)" ></el-input>
+                    </el-form-item>
+                    <el-form-item label="密&emsp;&emsp;码" prop="passwd" >
+                        <el-input type="password" v-model="ruleForm.passwd" auto-complete="off" placeholder="至少6位"></el-input>
+                    </el-form-item>
+                    <el-form-item label="确认密码" prop="checkPass">
+                        <el-input type="password" v-model="ruleForm.checkPass" auto-complete="off"></el-input>
+                    </el-form-item>
+                    <el-form-item label="身份类型" prop="role">
+                        <el-select v-model="ruleForm.role" placeholder="学生（在校）" @change="role">
+                            <el-option label="学生（在校）" value="学生（在校）"></el-option>
+                            <el-option label="学生（离校）" value="学生（离校）"></el-option>
+                            <el-option label="教师（在职）" value="教师（在职）"></el-option>
+                            <el-option label="教师（离职）" value="教师（离职）"></el-option>
+                            <el-option label="职工（在职）" value="职工（在职）"></el-option>
+                            <el-option label="职工（离职）" value="职工（离职）"></el-option>
+                            <el-option label="家长" value="家长"></el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="手&emsp;&emsp;机" prop="tel">
+                        <el-input v-model="ruleForm.tel"></el-input>
+                    </el-form-item>
+                    <el-form-item label="邮&emsp;&emsp;箱" prop="email">
+                        <el-input v-model="ruleForm.email" placeholder="仅用于密码找回"></el-input>
+                    </el-form-item>
+                    <el-form-item label="身份证号" prop="id_card">
+                        <el-input v-model="ruleForm.id_card" placeholder="系统严格保密该数据"></el-input>
+                    </el-form-item>
+                    <el-form-item label="Q&emsp;&emsp;Q" prop="qq">
+                        <el-input v-model="ruleForm.qq"></el-input>
+                    </el-form-item>
+                    <el-form-item label="微&emsp;&emsp;信" prop="wechat">
+                        <el-input v-model="ruleForm.wechat"></el-input>
+                    </el-form-item>
+                    <el-form-item label="家庭住址" prop="home_address">
+                        <el-input v-model="ruleForm.home_address"></el-input>
+                    </el-form-item>
+                    <el-form-item label="户&emsp;&emsp;籍" prop="native_place">
+                        <el-cascader
+                            :options="options"
+                            change-on-select
+                            v-model="ruleForm.native_place"
+                            @change="nativePlace"
+                        ></el-cascader>
+                    </el-form-item>
+                    <el-form-item label="政治面貌" prop="politician">
+                        <el-select v-model="ruleForm.politician" placeholder="共青团员">
+                            <el-option label="共青团员" value="共青团员"></el-option>
+                            <el-option label="党员" value="党员"></el-option>
+                            <el-option label="群众" value="群众"></el-option>
+                        </el-select>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+        </div>
+        <!--  拓展信息 -->
+        <div class="extended">
+            <!-- 在线学生信息 -->
+            <div class="">
+                <h1 class="title" v-if="this.ruleForm.role == '学生（在校）'">在校信息</h1>
+                <h1 class="title" v-else-if="this.ruleForm.role == '学生（离校）'">离校信息</h1>
+                <h1 class="title" v-else >扩展信息</h1>
+                <transition name="el-zoom-in-top">
+                    <el-row class="custom-row-1" :gutter="15"
+                        v-if="this.ruleForm.role == '学生（在校）' || this.ruleForm.role == '学生（离校）'">
+                        <el-col :span="24">
+                            <el-form-item label="入学时间" prop="junior_start_date">
+                                <el-date-picker
+                                    v-model="ruleForm.junior_start_date"
+                                    type="year"
+                                    format="yyyy"
+                                    placeholder="选择入学时间"
+                                    @change="datepicker"
+                                >
+                                </el-date-picker>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="24">
+                            <el-form-item label="所属阶段" prop="grade">
+                                <el-select v-model="ruleForm.grade" placeholder="初中" @change="changeGrade">
+                                    <el-option label="初中" value="初中"></el-option>
+                                    <el-option label="高中" value="高中"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="24">
+                            <el-form-item label="所在班级" prop="junior_class" v-if="this.ruleForm.grade == '初中'">
+                                <el-select class="select-classes" v-model="ruleForm.junior_class" placeholder="此为必填项">
+                                    <el-option 
+                                        v-for='item in items'
+                                        :label="item.label" 
+                                        :value="item.value"
+                                    >      
+                                    </el-option>
+                                    
+                                </el-select>
+                                <div class="i-icon" @click="addRow">
+                                    <i class="el-icon-plus"></i>
+                                </div>
+                            </el-form-item>
+                            <el-form-item label="所在班级" prop="senior_class" v-else>
+                                <el-select class="select-classes" v-model="ruleForm.senior_class" placeholder="此为必填项">
+                                    <el-option 
+                                        v-for='item in items'
+                                        :label="item.label" 
+                                        :value="item.value">
+                                    </el-option>
+                                    
+                                </el-select>
+                                <div class="i-icon" @click="addRow">
+                                    <i class="el-icon-plus"></i>
+                                </div>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                </transition>
+                <!-- 在校职工 && 离校职工 -->
+                <transition name="el-zoom-in-top">
+                    <el-row :gutter="15" class="p-t-xs border-dashed-top" v-if="this.ruleForm.role == '职工（在职）' || this.ruleForm.role == '职工（离职）'">
+                        <el-col :span="24">
+                            <el-form-item label="入职时间" prop="entry">
+                                <el-date-picker
+                                    v-model="ruleForm.entry"
+                                    type="date"
+                                    format="yyyy-MM-dd"
+                                    placeholder="选择入职时间"
+                                >
+                                </el-date-picker>
+                            </el-form-item>
+                            <el-form-item label="部&emsp;&emsp;门 " prop="department">
+                                <el-select v-model="ruleForm.department" placeholder="所属部门">
+                                    <el-option label="工会" value="工会"></el-option>
+                                    <el-option label="分校" value="分校"></el-option>
+                                    <el-option label="党委" value="党委"></el-option>
+                                    <el-option label="发展规划处" value="发展规划处"></el-option>
+                                    <el-option label="课程教学处" value="课程教学处"></el-option>
+                                    <el-option label="学生发展处" value="学生发展处"></el-option>
+                                    <el-option label="行政人事处" value="行政人事处"></el-option>
+                                    <el-option label="基建总务处" value="基建总务处"></el-option>
+                                    <el-option label="智慧教育中心" value="智慧教育中心"></el-option>
+                                    <el-option label="教科研培训中心" value="教科研培训中心"></el-option>
+                                    <el-option label="科学实践教育中心" value="科学实践教育中心"></el-option>
+                                </el-select>
+                            </el-form-item>
+                            <el-form-item label="职&emsp;&emsp;务 " prop="position">
+                                <el-select v-model="ruleForm.position" placeholder="职务">
+                                    <el-option label="主任" value="主任"></el-option>
+                                    <el-option label="科员" value="科员"></el-option>
+                                </el-select>
+                            </el-form-item>
+                            <el-form-item label="离校类型" prop="demission_type" v-if="this.ruleForm.role == '职工（离职）'">
+                                <el-select class="" v-model="ruleForm.demission_type">
+                                    <el-option label="退休" value="退休"></el-option>
+                                    <el-option label="跳槽" value="跳槽"></el-option>
+                                </el-select>
+                            </el-form-item>
+                            <el-form-item label="离休时间" prop="demission_date" v-if="this.ruleForm.role == '职工（离职）'">
+                                <el-date-picker
+                                    v-model="ruleForm.demission_date"
+                                    type="date"
+                                    format="yyyy-MM-dd"
+                                    placeholder="选择离休时间"
+                                >
+                                </el-date-picker>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                </transition>
+                <transition name="el-zoom-in-top">
+                    <el-row :gutter="15" class="custom-row-2" v-if="isHidden == false">
+                        <div class="">
+                            <el-col :span="24">
+                                <el-form-item label="入学时间" prop="senior_start_date">
+                                    <el-date-picker
+                                        v-model="ruleForm.senior_start_date"
+                                        type="year"
+                                        format="yyyy"
+                                        placeholder="选择入学时间"
+                                        @change="datepicker2"
+                                    >
+                                    </el-date-picker>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="24">
+                                <el-form-item label="所属阶段" prop="grade2">
+                                    <el-select v-model="ruleForm.grade2" placeholder="高中" @change="changeGrade2">
+                                        <el-option label="初中" value="初中"></el-option>
+                                        <el-option label="高中" value="高中"></el-option>
+                                    </el-select>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="24">
+                                <el-form-item label="所在班级" prop="senior_class" v-if="this.ruleForm.grade2 == '高中'">
+                                    <el-select class="select-classes" v-model="ruleForm.senior_class" placeholder="此为必填项">
+                                        <el-option 
+                                            v-for='item in items2'
+                                            :label="item.label" 
+                                            :value="item.value"
+                                        >      
+                                        </el-option>
+                                        
+                                    </el-select>
+                                    <div class="i-icon" @click="removeRow">
+                                        <i class="el-icon-minus"></i>
+                                    </div>
+                                </el-form-item>
+                                <el-form-item label="所在班级" prop="junior_class" v-else>
+                                    <el-select class="select-classes" v-model="ruleForm.junior_class" placeholder="此为必填项">
+                                        <el-option 
+                                            v-for='item in items2'
+                                            :label="item.label" 
+                                            :value="item.value">
+                                        </el-option>
+                                        
+                                    </el-select>
+                                    <div class="i-icon" @click="removeRow">
+                                        <i class="el-icon-minus"></i>
+                                    </div>
+                                </el-form-item>
+                                
+                            </el-col>
+                        </div>
+                    </el-row>
+                </transition>
+                <transition name="el-zoom-in-top">
+                    <el-row :gutter="15" class="p-t-xs border-dashed-top" v-if="this.ruleForm.role != '学生（在校）' && this.ruleForm.role != '教师（离职）' && this.ruleForm.role != '职工（离职）'">
+                        <el-col :span="24">
+                            <el-form-item label="工作单位" prop="company_name" v-if="this.ruleForm.role != '教师（在职）' && this.ruleForm.role != '职工（在职）'">
+                                <el-input v-model="ruleForm.company_name"></el-input>
+                            </el-form-item>
+                            <el-form-item label="单位性质" prop="company_type" v-if="this.ruleForm.role != '教师（在职）' && this.ruleForm.role != '职工（在职）'">
+                                <el-input v-model="ruleForm.company_type"></el-input>
+                            </el-form-item>
+                            <el-form-item label="原工作单位" prop="pre_company_name" label-width="96px" v-if="this.ruleForm.role == '教师（在职）' || this.ruleForm.role == '职工（在职）'">
+                                <el-input v-model="ruleForm.pre_company_name"></el-input>
+                            </el-form-item>
+                            <el-form-item label="工作职务" prop="company_position">
+                                <el-input v-model="ruleForm.company_position"></el-input>
+                            </el-form-item>
+                            <el-form-item label="职&emsp;&emsp;称" prop="company_office">
+                                <el-input v-model="ruleForm.company_office"></el-input>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                </transition>
+                <!-- 在职教师 -->
+                <transition name="el-zoom-in-top">
+                    <el-row :gutter="15" class="p-t-xs border-dashed-top" v-if="this.ruleForm.role == '教师（在职）' || this.ruleForm.role == '教师（离职）'">
+                        <el-col :span="24" class="">
+                            <el-form-item label="入职时间" prop="start_date">
+                                <el-date-picker
+                                    v-model="ruleForm.start_date"
+                                    type="date"
+                                    format="yyyy-MM-dd"
+                                    placeholder="选择入职时间"
+                                >
+                                </el-date-picker>
+                            </el-form-item>
+                            <el-form-item label="离校类型" prop="demission_type" v-if="this.ruleForm.role == '教师（离职）'">
+                                <el-select class="" v-model="ruleForm.demission_type">
+                                    <el-option label="退休" value="退休"></el-option>
+                                    <el-option label="跳槽" value="跳槽"></el-option>
+                                </el-select>
+                            </el-form-item>
+                            <el-form-item label="离休时间" prop="demission_date" v-if="this.ruleForm.role == '教师（离职）'">
+                                <el-date-picker
+                                    v-model="ruleForm.demission_date"
+                                    type="date"
+                                    format="yyyy-MM-dd"
+                                    placeholder="选择离休时间"
+                                >
+                                </el-date-picker>
+                            </el-form-item>
+                            <el-form-item label="教学阶段" prop="stage">
+                                <el-select class="" v-model="ruleForm.stage">
+                                    <el-option label="小学" value="小学"></el-option>
+                                    <el-option label="初中" value="初中"></el-option>
+                                    <el-option label="高中" value="高中"></el-option>
+                                </el-select>
+                            </el-form-item>
+                            <el-form-item label="科&emsp;&emsp;目" prop="course">
+                                <el-select class="" v-model="ruleForm.course">
+                                    <el-option label="语文" value="语文"></el-option>
+                                    <el-option label="数学" value="数学"></el-option>
+                                    <el-option label="英语" value="英语"></el-option>
+									<el-option label="地理" value="地理"></el-option>
+									<el-option label="历史" value="历史"></el-option>
+									<el-option label="物理" value="物理"></el-option>
+									<el-option label="化学" value="化学"></el-option>
+									<el-option label="体育" value="体育"></el-option>
+									<el-option label="音乐" value="音乐"></el-option>
+									<el-option label="艺术" value="艺术"></el-option>
+									<el-option label="生物" value="生物"></el-option>
+                                    <el-option label="信息技术" value="信息技术"></el-option>
+                                    <el-option label="思想品德" value="思想品德"></el-option>
+									<el-option label="其他" value="其他"></el-option>
+                                </el-select>
+                            </el-form-item>
+                            <el-form-item label="负责年级" prop="teach_class" v-if="this.ruleForm.role == '教师（在职）'">
+                                <el-select
+                                    v-model="ruleForm.teach_class"
+                                    multiple
+                                    filterable
+                                    allow-create
+                                    placeholder="选择年级">
+                                    <el-option
+                                        v-for="item in options2"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value">
+                                    </el-option>
+                                </el-select>
+                            </el-form-item>
+                            <!-- <el-form-item label="班&ensp;主&ensp;任" prop="is_main_tearcher" v-if="this.ruleForm.role == '教师（在职）'">
+                                <el-checkbox v-model="ruleForm.isChecked"></el-checkbox>
+                                <el-select class="custom-bzr" v-model="ruleForm.is_main_tearcher" v-if="ruleForm.isChecked">
+                                    <el-option label="2007级1班" value="2007级1班"></el-option>
+                                    <el-option label="2007级2班" value="2007级2班"></el-option>
+                                    <el-option label="2007级3班" value="2007级3班"></el-option>
+                                </el-select>
+                            </el-form-item> -->
+                            <el-form-item label="技术职务" prop="level">
+                                <el-select class="" v-model="ruleForm.level">
+                                    <el-option label="高级" value="高级"></el-option>
+                                    <el-option label="中级" value="中级"></el-option>
+                                    <el-option label="初级" value="初级"></el-option>
+                                </el-select>
+                            </el-form-item>
+                            <el-form-item label="编制情况" prop="plait">
+                                <el-select class="" v-model="ruleForm.plait">
+                                    <el-option label="在编" value="在编"></el-option>
+                                    <el-option label="未编" value="未编"></el-option>
+                                </el-select>
+                            </el-form-item>
+                            <el-form-item label="教师资格证种类" prop="qualification_certificate" label-width="122px">
+                                <el-select class="" v-model="ruleForm.qualification_certificate">
+                                    <el-option label="初级中学教师资格" value="初级中学教师资格"></el-option>
+                                    <el-option label="高级中学教师资格" value="高级中学教师资格"></el-option>
+                                    <el-option label="中等职业学校教师资格" value="中等职业学校教师资格"></el-option>
+                                </el-select>
+                            </el-form-item>
+                            <el-form-item label="教师资格证号码" prop="qualification_certificate_no" label-width="122px">
+                                <el-input v-model="ruleForm.qualification_certificate_no"></el-input>
+                            </el-form-item>
+                            <el-form-item label="所获荣誉" prop="hornor">
+                                <el-input class="custom-honour" v-model="ruleForm.hornor"></el-input>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                </transition>
+                <transition name="el-zoom-in-top">
+                    <el-row :gutter="15" class="p-t-xs border-dashed-top" v-if="this.ruleForm.role != '学生（在校）' ">
+                        <el-col :span="24" class="e-list">
+                            <el-form-item label="学&emsp;&emsp;历" prop="top_school_type">
+                                <el-select v-model="ruleForm.top_school_type" placeholder="选择最高的学历">
+                                    <el-option label="博士" value="1"></el-option>
+                                    <el-option label="硕士" value="2"></el-option>
+                                    <el-option label="研究生" value="3"></el-option>
+                                    <el-option label="本科" value="4"></el-option>
+                                </el-select>
+                            </el-form-item>
+                            <el-form-item label="毕业学校" prop="top_school_name">
+                                <el-input v-model="ruleForm.top_school_name"></el-input>
+                            </el-form-item>
+                            <el-form-item label="所学专业" prop="top_school_major">
+                                <el-input class="custom-input" v-model="ruleForm.top_school_major"></el-input>
+                                <!-- <div class="i-icon-group">
+                                    <div class="i-icon-item" @click="addItem">
+                                        <i class="el-icon-plus"></i>
+                                    </div>
+                                    <div class="i-icon-item" @click="removeItem">
+                                        <i class="el-icon-minus"></i>
+                                    </div>
+                                </div> -->
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                </transition>
+            </div>
+        </div>
+        
+		<div class="submit-box">
+            <el-col :span="24">
+                <el-form-item>
+                    <el-button type="primary" @click="submitForm('ruleForm', ruleForm)">注册</el-button>
+                    <el-button @click="resetForm('ruleForm')">重置</el-button>
+                </el-form-item>
+            </el-col>
+        </div>
+    </el-form>
+    <!-- <el-button :plain="true" @click="open6">成功</el-button>
+    <el-button :plain="true" @click="open8">错误</el-button> -->
+</div>
+</body>
+<script src="../../js/jquery-1.10.1.min.js"></script>
+<!-- <script src="../../js/jquery-3.2.1.js" type="text/javascript" charset="utf-8"></script> -->
+<script src="../../js/md5.js"></script>
+<script src="../../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/city.js"></script>
+<script src="../../js/bridgejs.js"></script>
+<script src="../../js/app-register.js"></script>
+<script>
+//图片上传预览    IE是用了滤镜.
+var imgArr = [];
+function previewImage(file) {
+  var MAXWIDTH  = 90;
+  var MAXHEIGHT = 90;
+  var div = document.getElementById('preview');
+  if (file.files && file.files[0]) {
+      div.innerHTML ='<img id=imghead onclick=$("#previewImg").click()>';
+      var img = document.getElementById('imghead');
+      img.onload = function(){
+        var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
+        img.width  =  rect.width;
+        img.height =  rect.height;
+        // img.style.marginLeft = rect.left+'px';
+        img.style.marginTop = rect.top+'px';
+      }
+      var reader = new FileReader();
+      reader.onload = function(evt){
+          // console.log(evt.target.result)
+          imgArr.push(evt.target.result);
+          img.src = evt.target.result;
+      }
+      reader.readAsDataURL(file.files[0]);
+  }
+}
+function clacImgZoomParam( maxWidth, maxHeight, width, height ){
+    var param = {top:0, left:0, width:width, height:height};
+    if( width>maxWidth || height>maxHeight ){
+        rateWidth = width / maxWidth;
+        rateHeight = height / maxHeight;
+
+        if( rateWidth > rateHeight ){
+            param.width =  maxWidth;
+            param.height = Math.round(height / rateWidth);
+        }else{
+            param.width = Math.round(width / rateHeight);
+            param.height = maxHeight;
+        }
+    }
+    param.left = Math.round((maxWidth - param.width) / 2);
+    param.top = Math.round((maxHeight - param.height) / 2);
+    return param;
+}
+
+
+function GetQueryString(name){
+    var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+    var r = window.location.search.substr(1).match(reg);
+    if(r!=null)return  r?decodeURIComponent(r[2]):null;
+}
+var type = GetQueryString("type");
+var token = GetQueryString("token");
+var openid = GetQueryString("openid");
+
+
+</script>
+</html>

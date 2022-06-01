@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link href="../../css/iconfont.css" rel="stylesheet" />
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript">
+			// 扩展API是否准备好，如果没有则监听“plusready"事件
+			if(window.plus) {
+				plusReady();
+			} else {
+				document.addEventListener("plusready", plusReady, false);
+			}
+			// 扩展API准备完成后要执行的操作
+			function plusReady() {
+				var ws = plus.webview.currentWebview(); //pw回车可输出plus.webview
+				// ... code
+			}
+		</script>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-icon iconfont icon-scanning mui-pull-left" href="../map/scan.html">
+			</a>
+			<h1 class="mui-title">导航栏</h1>
+			<a class="mui-icon mui-icon-home mui-pull-right" href="../login/login.html">
+			</a>
+		</header>
+		<div class="mui-content">
+			<script type="text/javascript">
+				mui.init({
+					subpages: [{
+						url: 'http://58.119.112.11/zgczx/map.html', //子页面HTML地址，支持本地地址和网络地址
+						id: '导览', //子页面标志
+						styles: {
+							top: '45px', //子页面顶部位置
+							bottom: '0px', //子页面底部位置
+						},
+						extras: {} //额外扩展参数
+					}]
+				});
+			</script>
+		</div>
+	</body>
+
+</html>

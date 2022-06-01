@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link href="../../css/iconfont.css" rel="stylesheet" />
+		<link href="../../css/app.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<nav class="mui-bar mui-bar-tab ">
+			<a id='defaultTab' class="mui-tab-item  mui-active" href="../map/map.html">
+				<span class="mui-icon iconfont icon-map"></span>
+				<span class="mui-tab-label">导览</span>
+			</a>
+			<a class="mui-tab-item" href="building.html">
+				<span class="mui-icon iconfont icon-comments"><span class="mui-badge">1</span></span>
+				<span class="mui-tab-label">校友</span>
+			</a>
+			<a class="mui-tab-item" href="building.html">
+				<span class="mui-icon iconfont icon-viewgallery"></span>
+				<span class="mui-tab-label">应用</span>
+			</a>
+			<a class="mui-tab-item" href="me.html">
+				<span class="mui-icon iconfont icon-gerenzhongxin"></span>
+				<span class="mui-tab-label">我</span>
+			</a>
+		</nav>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			// 初次进入，index为0，在导览界面
+			var firstIndex = 0;
+			// 创建子页面
+			// var subpages = ['../map/map.html','classmate.html','../../login/login.html','me.html'];
+			var subpages = ['../map/map.html','building.html','building.html','me.html'];
+			var subpage_style = {
+				top:'0px',
+				bottom:'50px',
+				scrollIndicator:'none',//界面足够时，会出现滚动条
+			};
+			
+			// 创建子页面，首个选项卡页面显示，其他均隐藏
+			mui.plusReady(function(){
+				var self = plus.webview.currentWebview();
+				for(var i=0;i<subpages.length;i++){
+					// 第一个是网址url，第二个是id
+					var sub = plus.webview.create(subpages[i],subpages[i],subpage_style);
+					if(i!=firstIndex){
+						sub.hide();
+					}
+					self.append(sub);
+				}
+			});
+			// 当前激活选项卡
+			var activeTab = subpages[firstIndex];
+			// 选项卡点击事件
+			mui('.mui-bar-tab').on('tap','a',function(e){
+				var targetTab = this.getAttribute('href');
+				if(targetTab == activeTab){
+					return;
+				}
+				// 显示目标选项卡
+				plus.webview.show(targetTab);
+				// 隐藏当前
+				plus.webview.hide(activeTab);
+				//更改当前活跃的选项卡
+				activeTab = targetTab;
+			})
+			document.addEventListener('gohome',function(){
+				var defaultTab = doument.getElementById('defaultTab');
+				// 模拟首页点击
+				mui.trigger(defaultTab,'tab');
+				// 切换选项卡高亮
+				var current = document.querySelector(".mui-bar-tab>.mui-tab-item.mui-active");
+				if(defaultTab!==current){
+					current.classList.remove('mui-active');
+					defaultTab.classList.add('mui-active');
+				}
+			});
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <title>基本信息</title>
+    <!-- 引入样式 -->
+	<link href="../../css/mui.min.css" rel="stylesheet" />
+	<link rel="stylesheet" href="../../css/ele.css">
+	
+   <!-- <link rel="stylesheet" href="https://unpkg.com/element-ui@1.4.3/lib/theme-default/index.css"> -->
+    <link rel="stylesheet" href="../../css/app.css">
+    <!-- VUE -->
+	<script src="../../js/vue@2.4.2.js" type="text/javascript" charset="utf-8"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script> -->
+    <!-- 引入组件库 -->
+	<script src="../../js/element-ui@1.4.3.js" type="text/javascript" charset="utf-8"></script>
+    <!-- <script src="https://unpkg.com/element-ui@1.4.3/lib/index.js"></script> -->
+
+</head>
+<body>
+	<header class="mui-bar mui-bar-nav">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		<h1 class="mui-title">基础信息修改</h1>
+	</header>
+<div class="" id="app">
+	<div style="height: 40px;"></div>
+    <el-form :model="ruleForm" :rules="rules2" ref="ruleForm" label-width="80px" class="custom-ruleForm">
+        <div class="basic">
+            <!-- <h1 class="title">个人信息</h1> -->
+            <el-row :gutter="15">
+                <el-col :span="16">
+                    <el-form-item label="姓&emsp;&emsp;名" prop="show_name">
+                        <el-input v-model="ruleForm.show_name"></el-input>
+                    </el-form-item>
+                    <el-form-item label="性&emsp;&emsp;别" prop="sex">
+                        <el-select v-model="ruleForm.sex" placeholder="性别" :disabled="true">
+                            <el-option label="男" value="男"></el-option>
+                            <el-option label="女" value="女"></el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="出生日期" prop="birthday">
+                        <el-date-picker
+                            v-model="ruleForm.birthday"
+                            type="date"
+                            format="yyyy-MM-dd"
+                            placeholder="选择日期"
+                        >
+                        </el-date-picker>
+                    </el-form-item>
+                </el-col>
+               <!-- <el-col :span="8">
+                    <div class="container">
+                        <div class="z_photo">
+                            <div class="z_file">
+                                <input type="file" name="file" id="file" value="" accept="image/*" multiple onchange="imgChange('z_photo','z_file');" />
+                                <i class="el-icon-plus"></i>
+                            </div>
+                            <div class="z_addImg" v-if="headimg">
+                            	<img :src="headimg">
+                            </div>
+                        </div>
+                        遮罩层
+                        <div class="z_mask">
+                            弹出框
+                            <div class="z_alert">
+                                <p>确定要删除这张图片吗？</p>
+                                <p>
+                                    <span class="z_cancel">取消</span>
+                                    <span class="z_sure">确定</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </el-col> -->
+                <el-col :span="24">
+                    <el-form-item label="身份类型" prop="role">
+                        <el-select v-model="ruleForm.role" placeholder="学生（在校）" @change="role">
+                            <el-option label="学生（在校）" value="学生（在校）"></el-option>
+                            <el-option label="学生（离校）" value="学生（离校）"></el-option>
+                            <el-option label="教师（在职）" value="教师（在职）"></el-option>
+                            <el-option label="教师（离职）" value="教师（离职）"></el-option>
+                            <el-option label="职工（在职）" value="职工（在职）"></el-option>
+                            <el-option label="职工（离职）" value="职工（离职）"></el-option>
+                            <el-option label="家长" value="家长"></el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="手&emsp;&emsp;机" prop="tel">
+                        <el-input v-model="ruleForm.tel" :disabled="true"></el-input>
+                    </el-form-item>
+                    <el-form-item label="邮&emsp;&emsp;箱" prop="email">
+                        <el-input v-model="ruleForm.email"></el-input>
+                    </el-form-item>
+                    <el-form-item label="身份证号" prop="id_card">
+                        <el-input v-model="ruleForm.id_card" :disabled="true" placeholder="系统严格保密该信息"></el-input>
+                    </el-form-item>
+                    <el-form-item label="Q&emsp;&emsp;Q" prop="qq">
+                        <el-input v-model="ruleForm.qq"></el-input>
+                    </el-form-item>
+                    <el-form-item label="微&emsp;&emsp;信" prop="wechat">
+                        <el-input v-model="ruleForm.wechat"></el-input>
+                    </el-form-item>
+                    <el-form-item label="家庭住址" prop="home_address">
+                        <el-input v-model="ruleForm.home_address"></el-input>
+                    </el-form-item>
+                    <el-form-item label="户&emsp;&emsp;籍" prop="native_place">
+                        <el-cascader
+                            :options="options"
+                            change-on-select
+                            v-model="ruleForm.native_place"
+                        ></el-cascader>
+                    </el-form-item>
+                    <el-form-item label="政治面貌" prop="politician">
+                        <el-select v-model="ruleForm.politician" placeholder="共青团员">
+                            <el-option label="共青团员" value="共青团员"></el-option>
+                            <el-option label="党员" value="党员"></el-option>
+                            <el-option label="群众" value="群众"></el-option>
+                        </el-select>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+        </div>
+        
+        <div class="submit-box">
+            <el-col :span="24">
+                <el-form-item>
+                    <el-button type="primary" @click="submitForm('ruleForm', ruleForm)">提交</el-button>
+                    <!-- <el-button @click="resetForm('ruleForm')">重置</el-button> -->
+                </el-form-item>
+            </el-col>
+        </div>
+    </el-form>
+</div>
+</body>
+<script src="../../js/jquery-1.10.1.min.js"></script>
+<script src="../../js/mui.min.js"></script>
+<script src="../../js/city.js"></script>
+<script src="../../js/bridgejs.js"></script>
+<script src="../../js/update-base.js"></script>
+<script>
+    // 图片的 blob 地址
+    var imgArr = [];
+    function imgChange(obj1, obj2) {
+        //获取点击的文本框
+        var file = document.getElementById("file");
+        //存放图片的父级元素
+        var imgContainer = document.getElementsByClassName(obj1)[0];
+        //获取的图片文件
+        var fileList = file.files;
+        //文本框的父级元素
+        var input = document.getElementsByClassName(obj2)[0];
+        //遍历获取到得图片文件
+        for (var i = 0; i < fileList.length; i++) {
+            var imgUrl = window.URL.createObjectURL(file.files[i]);
+            imgArr.push(imgUrl);
+            var img = document.createElement("img");
+            img.setAttribute("src", imgArr[i]);
+            var imgAdd = document.createElement("div");
+            imgAdd.setAttribute("class", "z_addImg");
+            imgAdd.appendChild(img);
+            imgContainer.appendChild(imgAdd);
+            //$('.z_addImg > img').attr('src',imgArr[i]);
+        };
+        console.log(imgArr)
+        imgRemove();
+    };
+
+    function imgRemove() {
+        var imgList = document.getElementsByClassName("z_addImg");
+        var mask = document.getElementsByClassName("z_mask")[0];
+        var cancel = document.getElementsByClassName("z_cancel")[0];
+        var sure = document.getElementsByClassName("z_sure")[0];
+        for (var j = 0; j < imgList.length; j++) {
+            imgList[j].index = j;
+            imgList[j].onclick = function() {
+                var t = this;
+                mask.style.display = "block";
+                cancel.onclick = function() {
+                    mask.style.display = "none";
+                };
+                sure.onclick = function() {
+                    mask.style.display = "none";
+                    imgArr = [];
+                    t.style.display = "none";
+                };
+
+            }
+        };
+    };
+
+
+</script>
+</html>

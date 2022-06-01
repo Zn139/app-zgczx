@@ -1,0 +1,153 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link href="../../css/style.css" rel="stylesheet" />
+		<style>
+			body {
+				background-image: url(../../img/bg-1.png);
+				background-size: cover;
+			}
+			
+			body img {
+				margin-top: 15%;
+				margin-left: 35%;
+				width: 30%;
+			}
+			
+			.mui-content-padded {
+				margin-top: 50%;
+			}
+			
+			.area {
+				margin: 20px auto 0px auto;
+			}
+			
+			.mui-input-group {
+				margin-top: 10px;
+			}
+			
+			.mui-input-group:first-child {
+				margin-top: 20px;
+			}
+			
+			.mui-input-group label {
+				width: 22%;
+			}
+			
+			.mui-input-row label~input,
+			.mui-input-row label~select,
+			.mui-input-row label~textarea {
+				width: 78%;
+			}
+			
+			.mui-checkbox input[type=checkbox],
+			.mui-radio input[type=radio] {
+				top: 6px;
+			}
+			
+			.mui-content-padded {
+				margin-top: 25px;
+			}
+			
+			.mui-btn {
+				padding: 10px;
+			}
+			
+			.link-area {
+				display: block;
+				margin-top: 25px;
+				text-align: center;
+			}
+			
+			.spliter {
+				color: #bbb;
+				padding: 0px 8px;
+			}
+			
+			.oauth-area {
+				position: absolute;
+				bottom: 20px;
+				left: 0px;
+				text-align: center;
+				width: 100%;
+				padding: 0px;
+				margin: 0px;
+			}
+			
+			.oauth-area .oauth-btn {
+				display: inline-block;
+				width: 50px;
+				height: 50px;
+				background-size: 30px 30px;
+				background-position: center center;
+				background-repeat: no-repeat;
+				margin: 0px 20px;
+				/*-webkit-filter: grayscale(100%); */
+				border: solid 1px #ddd;
+				border-radius: 25px;
+			}
+			
+			.oauth-area .oauth-btn:active {
+				border: solid 1px #aaa;
+			}
+		</style>
+	</head>
+
+	<body>
+		<img id="logo" src="../../img/logo.png" />
+		<div class="mui-content-padded">
+			<form id='login-form' class="mui-input-group">
+				<div class="mui-input-row">
+					<label>昵称</label>
+					<input id='name' type="text" class="mui-input-clear mui-input" placeholder="请输入账号">
+				</div>
+				<div class="mui-input-row">
+					<label>邮箱</label>
+					<input id='email' type="email" class="mui-input-clear mui-input" placeholder="请输入邮箱">
+				</div>
+			</form>
+			<div class="mui-content-padded">
+				<button id='forgetpw' class="mui-btn mui-btn-block mui-btn-primary">提交</button>
+			</div>
+			<div  style="text-align: center;">
+				<a href="login.html">返回登录界面</a>
+			</div>
+			
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/md5.js"></script>
+		<script src="../../js/mui.enterfocus.js"></script>
+		<script src="../../js/jquery-3.2.1.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			mui.plusReady(function() {
+				$("#forgetpw").click(function() {
+					var name = $("#name").val();
+					var email = $("#email").val();
+					alert('请稍后，不要重复点击');
+					var grsaurl = "http://47.94.81.14:8088/forgetpasswd?show_name=" + name + "&email=" + email;
+					mui.ajax(grsaurl, {
+						dataType: 'json',
+						type: 'get',
+						timeout: 10000,
+						success: function(data1) {
+							console.log(data1)
+							if(data1.errno == 0) {
+								alert(data1.errmsg);
+							} else {
+								alert(data1.errmsg);
+							}
+						}
+					});
+				});
+			});
+			
+		</script>
+	</body>
+
+</html>

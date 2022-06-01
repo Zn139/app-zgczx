@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link href="../../css/iconfont.css" rel="stylesheet" />
+		<link href="../../css/app.css" rel="stylesheet" />
+		<script type="text/javascript">
+		</script>
+
+		<script src="../../js/mui.min.js"></script>
+		<style>
+			.mui-plus .plus {
+				display: inline;
+			}
+			
+			.plus {
+				display: none;
+			}
+			
+			#topPopover {
+				position: fixed;
+				top: 16px;
+				right: 6px;
+			}
+			
+			#topPopover .mui-popover-arrow {
+				left: auto;
+				right: 6px;
+			}
+			
+			p {
+				text-indent: 22px;
+			}
+			
+			.mui-popover {
+				height: 190px;
+			}
+			
+			.mui-content {
+				padding: 10px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-icon iconfont icon-scanning mui-pull-left" href="../map/scan.html">
+			</a>
+			<h1 class="mui-title">导航栏</h1>
+			<a class="mui-icon mui-icon-home mui-pull-right" id="loginhtml">
+			</a>
+		</header>
+		<div class="mui-content">
+			<script type="text/javascript">
+				mui.init({
+					subpages: [{
+						url: 'http://58.119.112.11/zgczx/map.html', //子页面HTML地址，支持本地地址和网络地址
+						id: '导览', //子页面标志
+						styles: {
+							top: '45px', //子页面顶部位置
+							bottom: '0px', //子页面底部位置
+						},
+						extras: {} //额外扩展参数
+					}]
+				};
+				$("#loginhtml").click()
+				);
+			</script>
+		</div>
+		<nav class="mui-bar mui-bar-tab">
+			<a class="mui-tab-item mui-active" href="../fun/funmain.html">
+				<span class="mui-icon iconfont icon-comments"><span class="mui-badge">1</span></span>
+				<span class="mui-tab-label">校友</span>
+			</a>
+			<a class="mui-tab-item" href="fun.html">
+				<span class="mui-icon iconfont icon-viewgallery"></span>
+				<span class="mui-tab-label">应用</span>
+			</a>
+			<a class="mui-tab-item" href="../map/map.html">
+				<span class="mui-icon iconfont icon-map"></span>
+				<span class="mui-tab-label">导览</span>
+			</a>
+			<a class="mui-tab-item" href="me.html">
+				<span class="mui-icon iconfont icon-gerenzhongxin"></span>
+				<span class="mui-tab-label">我</span>
+			</a>
+		</nav>
+	</body>
+
+</html>

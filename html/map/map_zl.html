@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<title></title>
+	<link href="../../css/bootstrap.min.css" rel="stylesheet" />
+	<link href="../../css/swiper-3.4.2.min.css" rel="stylesheet" />
+	<script src="../../js/jquery.min.js"></script>
+	<script src="../../js/bootstrap.min.js"></script>
+	<script src="../../js/swiper-3.4.2.min.js"></script>
+	<script src="../../js/map.js"></script>
+	<style type="text/css">
+			body,
+			html,
+			#allmap {
+				width: 100%;
+				height: 100%;
+				overflow: hidden;
+				margin: 0;
+				font-family: "微软雅黑";
+			}
+			
+			.BMap_cpyCtrl {
+				display: none;
+			}
+			
+			.anchorBL {
+				display: none;
+			}
+			.swiper-container {
+				height: 300px;
+			}
+			.item > img {
+				width: 100%;
+				height: 100%;
+			}
+		</style>
+<!-- 	<script type="text/javascript" src="http://api.map.baidu.com/api?v=1.0&ak=XTFG7GOEv3gDDMKeQG2wDfOZZnesfSKF"></script> -->
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=3.0&ak=9BDGTuKxSIZGP5Gj45QqEdQxOGnfGgfH"></script>
+ </head>
+
+<body>
+	<div id="allmap" style="width: 100%;height: 100%;"></div>
+	<div class="btn btn-primary btn-lg" data-toggle="modal" data-target="#words"></div>
+	<div class="btn btn-primary btn-lg" data-toggle="modal" data-target="#pics"></div>
+	<div class="btn btn-primary btn-lg" data-toggle="modal" data-target="#vods"></div>
+</body>
+
+<script type="text/javascript">
+		var point_bb = new BMap.Point(116.334295, 39.984798);
+		var point_sys = new BMap.Point(116.327885, 39.978056);
+		var point_qhy = new BMap.Point(116.33513, 39.999532);
+		var point_fx = new BMap.Point(116.334365,39.979674);
+		// 百度地图API功能
+		var map = new BMap.Map("allmap", {
+			minZoom: 15,
+			maxZoom: 20
+		}); // 创建Map实例
+
+		map.centerAndZoom(point_bb, 18); // 初始化地图,设置中心点坐标和地图级别
+		// map.setMapType(BMAP_PERSPECTIVE_MAP); //修改地图类型为3D地图
+		//map.addControl(new BMap.MapTypeControl());   //添加地图类型控件
+		map.setCurrentCity("北京"); // 设置地图显示的城市 此项是必须设置的
+		map.enableDragging();//启用地图拖拽，默认启用。
+		map.enableDoubleClickZoom();//启用双击放大，默认启用。
+		map.enableAutoResize();//启用自动适应容器尺寸变化，默认启用。
+		map.disablePinchToZoom();//启用双指操作缩放，默认启用。
+		map.disableDoubleClickZoom();
+		//建筑物标注
+		var markerarray = new Array();
+         var labelarray = ['武术馆','科技活动中心','初中办公楼','初中楼','科技楼','高中楼','实验楼','高中办公楼','综合楼','图书馆文体楼','操场','中关村中学（双榆树校区）','中关村中学清华园校区','中关村中学知春分校']
+         var poinntarray = [new BMap.Point(116.333645,39.983996),new BMap.Point(116.333095,39.98402),new BMap.Point(116.332704,39.984214),new BMap.Point(116.333093,39.984353),
+         new BMap.Point(116.333426,39.984739),new BMap.Point(116.333136,39.985195),new BMap.Point(116.332655,39.985427),new BMap.Point(116.332894,39.985406),
+         new BMap.Point(116.333346,39.985363),new BMap.Point(116.333679,39.985394),new BMap.Point(116.334302,39.984403),
+         new BMap.Point(116.327695,39.977861),new BMap.Point(116.334603,40.000397),new BMap.Point(116.334945,39.979895)]
+		 var buildingIdarray=[10,9,7,8,1,4,2,3,5,6,11,12,13,14];
+         //逐个添加文本标签和建筑标志
+         for(var i=0;i<labelarray.length;i++){
+			 var opts = {
+					   position : poinntarray[i],    // 指定文本标注所在的地理位置
+					   offset   : new BMap.Size(-20, -50)    //设置文本偏移量
+						}
+			 var label = new BMap.Label(labelarray[i], opts);  // 创建文本标注对象
+			 label.setStyle({
+				color : "#FFFFFF",
+				backgroundColor:'0.05',//文本背景色
+				borderColor:'transparent',//文本框边框色
+				fontWeight: "幼圆",
+				fontSize : "16px"
+				});
+			 map.addOverlay(label);
+			 var marker = new BMap.Marker(poinntarray[i]);
+			 markerarray.push(marker)
+			 map.addOverlay(marker);
+		 }
+		
+		// 定义控件类
+		function benbu() {
+			this.defaultAnchor = BMAP_ANCHOR_TOP_LEFT;
+			this.defaultOffset = new BMap.Size(10, 10);
+		}
+		benbu.prototype = new BMap.Control();
+		benbu.prototype.initialize = function(map) {
+			var benbu = document.createElement("div");
+			benbu.appendChild(document.createTextNode("本部"));
+			benbu.style.width = "100px";
+			benbu.style.fontSize = "18px";
+			benbu.style.cursor = "pointer";
+			benbu.style.border = "1px solid gray";
+			benbu.style.backgroundColor = "darkgreen";
+			benbu.style.color = "white";
+			benbu.style.textAlign = "center";
+			benbu.onclick = function(e) {
+				map.panTo(point_bb);
+			}
+			map.getContainer().appendChild(benbu);
+			return benbu;
+		}
+		var benbu = new benbu();
+		map.addControl(benbu);
+
+		function shuangyushu() {
+			this.defaultAnchor = BMAP_ANCHOR_TOP_LEFT;
+			this.defaultOffset = new BMap.Size(10, 40);
+		}
+		shuangyushu.prototype = new BMap.Control();
+		shuangyushu.prototype.initialize = function(map) {
+			var shuangyushu = document.createElement("div");
+			shuangyushu.appendChild(document.createTextNode("双榆树"));
+			shuangyushu.style.width = "100px";
+			shuangyushu.style.fontSize = "18px";
+			shuangyushu.style.cursor = "pointer";
+			shuangyushu.style.border = "1px solid gray";
+			shuangyushu.style.backgroundColor = "darkgoldenrod";
+			shuangyushu.style.color = "white";
+			shuangyushu.style.textAlign = "center";
+			shuangyushu.onclick = function(e) {
+				map.panTo(point_sys);
+			}
+			map.getContainer().appendChild(shuangyushu);
+			return shuangyushu;
+		}
+		var shuangyushu = new shuangyushu();
+		map.addControl(shuangyushu);
+
+		function qinghuayuan() {
+			this.defaultAnchor = BMAP_ANCHOR_TOP_LEFT;
+			this.defaultOffset = new BMap.Size(10, 70);
+		}
+		qinghuayuan.prototype = new BMap.Control();
+		qinghuayuan.prototype.initialize = function(map) {
+			var qinghuayuan = document.createElement("div");
+			qinghuayuan.appendChild(document.createTextNode("清华园"));
+			qinghuayuan.style.width = "100px";
+			qinghuayuan.style.fontSize = "18px";
+			qinghuayuan.style.cursor = "pointer";
+			qinghuayuan.style.border = "1px solid gray";
+			qinghuayuan.style.backgroundColor = "saddlebrown";
+			qinghuayuan.style.color = "white";
+			qinghuayuan.style.textAlign = "center";
+			qinghuayuan.onclick = function(e) {
+				map.panTo(point_qhy);
+			}
+			map.getContainer().appendChild(qinghuayuan);
+			return qinghuayuan;
+		}
+		var qinghuayuan = new qinghuayuan();
+		map.addControl(qinghuayuan);
+
+		function fenxiao() {
+			this.defaultAnchor = BMAP_ANCHOR_TOP_LEFT;
+			this.defaultOffset = new BMap.Size(10, 100);
+		}
+		fenxiao.prototype = new BMap.Control();
+		fenxiao.prototype.initialize = function(map) {
+			var fenxiao = document.createElement("div");
+			fenxiao.appendChild(document.createTextNode("分校"));
+			fenxiao.style.width = "100px";
+			fenxiao.style.fontSize = "18px";
+			fenxiao.style.cursor = "pointer";
+			fenxiao.style.border = "1px solid gray";
+			fenxiao.style.backgroundColor = "gray";
+			fenxiao.style.color = "white";
+			fenxiao.style.textAlign = "center";
+			fenxiao.onclick = function(e) {
+				map.panTo(point_fx);
+			}
+			map.getContainer().appendChild(fenxiao);
+			return fenxiao;
+		}
+		var fenxiao = new fenxiao();
+		map.addControl(fenxiao);
+
+		function pointArrayMake(point) {
+			var pointArray = new Array();
+			for(i = 0; i < point.length; i++) {
+				pointArray.push(new BMap.Point(point[i][0], point[i][1]));
+			}
+			return pointArray;
+		}
+
+		function getPolygon(point, style) {
+			var polygon = new BMap.Polygon(pointArrayMake(point), styleOptions); //创建多边形
+			return polygon;
+		}
+		$(function() {
+			for(var i = 0; i < bn.length; i++) {
+				var polygon = new getPolygon(bn[i][1], styleOptions);
+				map.addOverlay(polygon);
+			}
+		});
+
+		// var baseurl = "http://58.119.112.11/guide/detail?building_id=";
+		 var baseurl = "http://47.94.81.14:8088/guide/detail?building_id=";
+		map.addEventListener("click", function(e) {
+			var pt = new BMap.Point(e.point.lng, e.point.lat);
+			for(var i = 0; i < bn.length; i++) {
+				if(isInsidePolygon(pt, pointArrayMake(bn[i][1]))) {
+					var bid = bn[i][0];
+					var burl = baseurl + bid;
+					$.ajax({
+						type: "post",
+						url: burl,
+						async: true,
+						success: function(data) {
+							if(data.displayType == 2) {
+								$('#mh2').text(data.buildingName);
+								//var ld = document.getElementById("mo2");
+								//var lim = document.getElementById('mi2');
+								// var urli = "http://58.119.112.11/";
+								var urli = "http://47.94.81.14:8088/";
+								var mo2Dom = '',mi2Dom = '';
+								$.each(data.imagelist, function (i, val){
+									if (i == 0){
+										//mo2Dom += '<li data-target="#myCarousel" data-slide-to="'+ i +'" class="active"></li>';
+										mi2Dom += '<div class="item swiper-slide active">'+
+																'<img src="'+ urli+ val.imageUrl +'" alt="First slide">'+
+																'<div class="carousel-caption">'+ val.imageTitle +'</div>'+
+															'</div>';
+									} else {
+										//mo2Dom += '<li data-target="#myCarousel" data-slide-to="'+ i +'" class=""></li>';
+										mi2Dom += '<div class="item swiper-slide">'+
+																'<img src="'+ urli+ val.imageUrl +'" alt="Other slide">'+
+																'<div class="carousel-caption">'+ val.imageTitle +'</div>'+
+															'</div>';
+									}
+									//$('#mo2').html('').html(mo2Dom);
+									$('#mi2 .swiper-wrapper').html('').html(mi2Dom);
+
+								});
+								
+								/*for(j in data.imagelist) {
+									if(j == 0) {
+										var ldd = document.createElement("li");
+										ldd.setAttribute("data-target", "#myCarouse");
+										ldd.setAttribute("data-slide-to", "0");
+										ldd.setAttribute("class", "active");
+										ld.appendChild(ldd);
+										var lim1 = document.createElement("div");
+										lim1.setAttribute("class", "item active");
+										lim.appendChild(lim1);
+										var lim2 = document.createElement("img");
+										lim2.setAttribute("src", urli + data.imagelist[0].imageUrl);
+										lim2.setAttribute("alt", "First slide");
+										var lim3 = document.createElement("div");
+										lim3.setAttribute("class", "carousel-caption");
+										lim3.innerHTML = data.imagelist[0].imageTitle;
+										lim1.appendChild(lim2);
+										lim1.appendChild(lim3);
+									}
+									if(j > 0) {
+										var ldd = document.createElement("li");
+										ldd.setAttribute("data-target", "#myCarouse");
+										ldd.setAttribute("data-slide-to", j);
+										ld.appendChild(ldd);
+										var lim1 = document.createElement("div");
+										lim1.setAttribute("class", "item");
+										lim.appendChild(lim1);
+										var lim2 = document.createElement("img");
+										lim2.setAttribute("src", urli + data.imagelist[j].imageUrl);
+										lim2.setAttribute("alt", "First slide");
+										var lim3 = document.createElement("div");
+										lim3.setAttribute("class", "carousel-caption");
+										lim3.innerHTML = data.imagelist[j].imageTitle;
+										lim1.appendChild(lim2);
+										lim1.appendChild(lim3);
+									}
+								}*/
+								$('#mc2').text(data.buildingDesc);
+								$('#pics').modal('show');
+								// swiper 滑动
+								var mySwiper = new Swiper('.swiper-container',{
+									loop : true,
+		        					paginationClickable: true,
+		        					observer: true,
+								    observeParents: true,
+									pagination: '.swiper-pagination',
+								    onSlideChangeEnd: function(swiper){ 
+								        swiper.update(); 
+								    }
+								})
+							}
+						}
+					});
+					break;
+				}
+			}
+		})
+
+		$('#pics').on('hide.bs.modal', function() {
+			$("#mo2").html('');
+			$("#mi2").html('');
+		});
+
+		function isInsidePolygon(pt, poly) {
+			for(var c = false, i = -1, l = poly.length, j = l - 1; ++i < l; j = i)
+				((poly[i].lat <= pt.lat && pt.lat < poly[j].lat) || (poly[j].lat <= pt.lat && pt.lat < poly[i].lat)) &&
+				(pt.lng < (poly[j].lng - poly[i].lng) * (pt.lat - poly[i].lat) / (poly[j].lat - poly[i].lat) + poly[i].lng) &&
+				(c = !c);
+			return c;
+		}
+	</script>
+
+</html>
+
+<div class="modal fade" id="words" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 id="mh1" class="modal-title" style="text-align: center;">标题</h4>
+			</div>
+			<div id="mc1" class="modal-body">
+				<p>这里是弹窗的具体内容......&hellip;</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="pics" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 id="mh2" class="modal-title" style="text-align: center;">标题</h4>
+			</div>
+			<div id="myCarousel" class="carousel slide">
+				<!-- 轮播（Carousel）指标 -->
+				<!--<ol id='mo2' class="carousel-indicators">
+					<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+					<li data-target="#myCarousel" data-slide-to="1"></li>
+					<li data-target="#myCarousel" data-slide-to="2"></li>
+				</ol>-->
+				<!-- 轮播（Carousel）项目 -->
+				<div id='mi2' class="carousel-inner swiper-container">
+					<div class="swiper-wrapper"></div>
+					<div class="swiper-pagination"></div>
+					<!--<div class="item active">
+						<img src="http://58.119.112.11/web-app/img/building/kjl-1.jpg" alt="First slide">
+						<div class="carousel-caption">标题 1</div>
+					</div>
+					<div class="item">
+						<img src="http://58.119.112.11/web-app/img/building/kjl-1.jpg" alt="First slide">
+						<div class="carousel-caption">标题 2</div>
+					</div>
+					<div class="item">
+						<img src="http://58.119.112.11/web-app/img/building/kjl-1.jpg" alt="First slide">
+						<div class="carousel-caption">标题 3</div>
+					</div>-->
+				</div>
+				<!-- 轮播（Carousel）导航 -->
+				<a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;
+				</a>
+				<a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;
+				</a>
+			</div>
+			<div id="mc2" class="modal-body">
+				<p>这里是弹窗的具体内容......&hellip;</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="vods" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title">标题</h4>
+			</div>
+			<div class="modal-body">
+				<p>这里是弹窗的具体内容......&hellip;</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+			</div>
+		</div>
+	</div>
+</div>
